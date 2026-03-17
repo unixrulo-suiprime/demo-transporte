@@ -19,11 +19,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   const login = useCallback(async (email: string, password: string) => {
-    const data = await api.auth.login(email, password);
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    setToken(data.token);
-    setUser(data.user);
+    // Demo mode: accept any credential or the preset ones
+    if (!email || !password) throw new Error('Ingresa tus credenciales');
+    const demoUser: AuthUser = { id: 'demo-1', email, name: 'Admin Demo', role: 'admin' };
+    const demoToken = 'demo-token-logicore';
+    localStorage.setItem('token', demoToken);
+    localStorage.setItem('user', JSON.stringify(demoUser));
+    setToken(demoToken);
+    setUser(demoUser);
   }, []);
 
   const logout = useCallback(() => {
